@@ -9,6 +9,7 @@ import 'package:flight_maintenance_app/screens/aircraft_list/piper/piper_pa28_sc
 import 'package:flight_maintenance_app/screens/aircraft_list/robin/alpha_robin_dr400_screen.dart';
 import 'package:flight_maintenance_app/screens/aircraft_list/tecnam/tecnam_p2006t_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 class AircraftMaintenanceAppMainScreen extends StatefulWidget {
@@ -34,17 +35,17 @@ class _AircraftMaintenanceAppMainScreenState
     'Aero Commander 680'
   ];
 
-  final Map<String, Widget> aircraftScreens = {
-    'Cessna 172': const Cessna172Screen(),
-    'Piper PA-28 Cherokee': const PiperPA28Screen(),
-    'Beechcraft Bonanza': const BeechcraftBonanzaScreen(),
-    'Cirrus SR22': const CirrusSR22Screen(),
-    'Diamond DA40': const DiamondDA40Screen(),
-    'Mooney M20': const MooneyM20Screen(),
-    'Grumman Tiger': const GrummanTigerScreen(),
-    'Tecnam P2006T': const TecnamP2006TScreen(),
-    'Alpha Robin DR400': const AlphaRobinDR400Screen(),
-    'Aero Commander 680': const AeroCommander680Screen(),
+  final Map<String, String> aircraftRoutes = {
+    'Cessna 172': '/cessna172',
+    'Piper PA-28 Cherokee': '/piperPa28',
+    'Beechcraft Bonanza': '/beechcraftBonanza',
+    'Cirrus SR22': '/cirrusSr22',
+    'Diamond DA40': '/diamondDa40',
+    'Mooney M20': '/mooneyM20',
+    'Grumman Tiger': '/grummanTiger',
+    'Tecnam P2006T': '/tecnamP2006t',
+    'Alpha Robin DR400': '/alphaRobinDr400',
+    'Aero Commander 680': '/aeroCommander680',
   };
 
   @override
@@ -58,7 +59,8 @@ class _AircraftMaintenanceAppMainScreenState
   AppBar _buildAppBar() {
     return AppBar(
       title: const Text('Aircraft Maintenance'),
-      titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      titleTextStyle:
+          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       backgroundColor: Colors.blueAccent,
     );
   }
@@ -76,18 +78,13 @@ class _AircraftMaintenanceAppMainScreenState
                 return GestureDetector(
                   onTap: () {
                     Logger().e("Tapped on $aircraft");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => aircraftScreens[aircraft]!,
-                      ),
-                    );
+                    context.go(aircraftRoutes[aircraft]!);
                   },
                   child: Card(
                     child: ListTile(
                       title: Text(aircraftList[index]),
                       titleTextStyle:
-                          TextStyle(fontSize: 15, color: Colors.black),
+                          const TextStyle(fontSize: 15, color: Colors.black),
                       subtitle: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

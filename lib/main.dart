@@ -1,4 +1,4 @@
-import 'package:flight_maintenance_app/screens/app/aircraft_maintenace_app.dart';
+import 'package:flight_maintenance_app/services/go_router_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,14 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Aircraft Maintenance',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        fontFamily: 'CustomFont', 
+        fontFamily: 'CustomFont',
       ),
-      home: const AircraftMaintenanceAppMainScreen(),
+      routerConfig: router,
     );
   }
 }
