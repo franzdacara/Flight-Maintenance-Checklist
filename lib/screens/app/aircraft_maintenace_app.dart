@@ -52,7 +52,9 @@ class _AircraftMaintenanceAppMainScreenState
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: const Text('Select Aircraft to Check Status'),
+      title: _selectedIndex == 0
+          ? const Text('Select Aircraft to Check Status')
+          : const Text('Settings'),
       centerTitle: true,
       backgroundColor: Colors.blueGrey[400],
       elevation: 4.0,
