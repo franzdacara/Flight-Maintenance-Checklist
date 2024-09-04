@@ -1,8 +1,7 @@
+import 'package:flight_maintenance_app/screens/app/aircraft_card_screen.dart';
+import 'package:flight_maintenance_app/utils/aircraftlist.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-// ignore: depend_on_referenced_packages
-import 'package:logger/logger.dart';
-import 'package:flight_maintenance_app/models/aircraft_model.dart';
+import 'settings_screen.dart';
 
 class AircraftMaintenanceAppMainScreen extends StatefulWidget {
   const AircraftMaintenanceAppMainScreen({super.key});
@@ -14,34 +13,40 @@ class AircraftMaintenanceAppMainScreen extends StatefulWidget {
 
 class _AircraftMaintenanceAppMainScreenState
     extends State<AircraftMaintenanceAppMainScreen> {
-  final List<Aircraft> aircraftList = [
-    Aircraft(name: 'Cessna 172', isAvailable: true, route: '/cessna172'),
-    Aircraft(
-        name: 'Piper PA-28 Cherokee', isAvailable: false, route: '/piperPa28'),
-    Aircraft(
-        name: 'Beechcraft Bonanza',
-        isAvailable: false,
-        route: '/beechcraftBonanza'),
-    Aircraft(name: 'Cirrus SR22', isAvailable: false, route: '/cirrusSr22'),
-    Aircraft(name: 'Diamond DA40', isAvailable: false, route: '/diamondDa40'),
-    Aircraft(name: 'Mooney M20', isAvailable: false, route: '/mooneyM20'),
-    Aircraft(name: 'Grumman Tiger', isAvailable: false, route: '/grummanTiger'),
-    Aircraft(name: 'Tecnam P2006T', isAvailable: false, route: '/tecnamP2006t'),
-    Aircraft(
-        name: 'Alpha Robin DR400',
-        isAvailable: false,
-        route: '/alphaRobinDr400'),
-    Aircraft(
-        name: 'Aero Commander 680',
-        isAvailable: false,
-        route: '/aeroCommander680'),
-  ];
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(),
+      body: _selectedIndex == 0
+          ? ListView.builder(
+              itemCount: aircraftList.length,
+              itemBuilder: (context, index) {
+                return AircraftCard(aircraft: aircraftList[index]);
+              },
+            )
+          : const SettingsScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.airplane_ticket),
+            label: 'Aircraft',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -50,69 +55,10 @@ class _AircraftMaintenanceAppMainScreenState
       title: const Text('Select Aircraft to Check Status'),
       centerTitle: true,
       backgroundColor: Colors.blueGrey[400],
+      elevation: 4.0,
+      shadowColor: Colors.black54,
       titleTextStyle:
           const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-    );
-  }
-
-  Widget _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: aircraftList.length,
-              itemBuilder: (context, index) {
-                final aircraft = aircraftList[index];
-                return AircraftCard(aircraft: aircraft);
-              },
-            ),
-          ),
-          const SizedBox(height: 50),
-        ],
-      ),
-    );
-  }
-}
-
-class AircraftCard extends StatelessWidget {
-  final Aircraft aircraft;
-
-  const AircraftCard({super.key, required this.aircraft});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Logger().e(
-            "Tapped on ${aircraft.name} Status: ${aircraft.isAvailable ? 'Available' : 'Not Available'}");
-        if (aircraft.isAvailable) {
-          context.go(aircraft.route);
-        }
-      },
-      child: Card(
-        child: ListTile(
-          title: Text(
-            aircraft.name,
-            style: const TextStyle(fontSize: 13),
-          ),
-          leading: Icon(
-            Icons.airplane_ticket,
-            color: aircraft.isAvailable ? Colors.green : Colors.red,
-          ),
-          trailing: const Icon(Icons.arrow_forward_ios_rounded),
-          tileColor: Colors.blueGrey[100],
-          textColor: Colors.black,
-          iconColor: Colors.black,
-          subtitle: Text(
-            'Status: ${aircraft.isAvailable ? 'Available' : 'Not Available'}',
-            style: const TextStyle(fontSize: 12),
-          ),
-        ),
-      ),
-
     );
   }
 }
