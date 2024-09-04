@@ -86,7 +86,8 @@ class AircraftCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Logger().e("Tapped on ${aircraft.name}");
+        Logger().e(
+            "Tapped on ${aircraft.name} Status: ${aircraft.isAvailable ? 'Available' : 'Not Available'}");
         if (aircraft.isAvailable) {
           context.go(aircraft.route);
         }
