@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 AppBar buildCommonAppBar(BuildContext context, String title) {
@@ -18,15 +20,46 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class Cessna172Screen extends StatelessWidget {
+class Cessna172Screen extends StatefulWidget {
   const Cessna172Screen({super.key});
+
+  @override
+  State<Cessna172Screen> createState() => _Cessna172ScreenState();
+}
+
+class _Cessna172ScreenState extends State<Cessna172Screen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ChecklistBloc>(context).add(LoadChecklist());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCommonAppBar(context, 'Cessna 172'),
-      body: const Center(
-        child: Text('Cessna 172 Details'),
+      body: BlocBuilder<ChecklistBloc, ChecklistState>(
+        builder: (context, state) {
+          if (state is ChecklistInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ChecklistLoaded) {
+            return ListView.builder(
+              itemCount: state.items.length,
+              itemBuilder: (context, index) {
+                final item = state.items[index];
+                return CheckboxListTile(
+                  title: Text(item.title),
+                  value: item.isChecked,
+                  onChanged: (value) {
+                    BlocProvider.of<ChecklistBloc>(context)
+                        .add(ToggleChecklistItem(index));
+                  },
+                );
+              },
+            );
+          }
+          return const Center(child: Text('No checklist items available'));
+        },
       ),
     );
   }
