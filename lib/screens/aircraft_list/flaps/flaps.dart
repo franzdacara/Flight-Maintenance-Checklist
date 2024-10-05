@@ -20,14 +20,14 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class PiperPA28Screen extends StatefulWidget {
-  const PiperPA28Screen({super.key});
+class Flaps extends StatefulWidget {
+  const Flaps({super.key});
 
   @override
-  State<PiperPA28Screen> createState() => _PiperPA28ScreenState();
+  State<Flaps> createState() => _FlapsState();
 }
 
-class _PiperPA28ScreenState extends State<PiperPA28Screen> {
+class _FlapsState extends State<Flaps> {
   final List<bool> _isChecked = List.generate(10, (index) => false);
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -40,7 +40,7 @@ class _PiperPA28ScreenState extends State<PiperPA28Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Piper PA-28 Cherokee'),
+      appBar: buildCommonAppBar(context, 'Flaps'),
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {

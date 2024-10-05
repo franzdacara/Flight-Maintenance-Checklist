@@ -1,7 +1,6 @@
 import 'package:flight_maintenance_app/models/aircraft_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 
 class AircraftCard extends StatelessWidget {
   final Aircraft aircraft;

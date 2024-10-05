@@ -18,15 +18,15 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class GrummanTigerScreen extends StatelessWidget {
-  const GrummanTigerScreen({super.key});
+class Engine extends StatelessWidget {
+  const Engine({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Grumman Tiger'),
+      appBar: buildCommonAppBar(context, 'Engine'),
       body: const Center(
-        child: Text('Grumman Tiger Details'),
+        child: Text('Engine'),
       ),
     );
   }

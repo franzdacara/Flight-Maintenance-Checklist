@@ -18,15 +18,15 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class MooneyM20Screen extends StatelessWidget {
-  const MooneyM20Screen({super.key});
+class Fuselage extends StatelessWidget {
+  const Fuselage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Mooney M20'),
+      appBar: buildCommonAppBar(context, 'Fuselage'),
       body: const Center(
-        child: Text('Mooney M20 Details'),
+        child: Text('Fuselage'),
       ),
     );
   }

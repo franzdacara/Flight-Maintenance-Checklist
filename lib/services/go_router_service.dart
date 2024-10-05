@@ -1,20 +1,26 @@
+import 'package:flight_maintenance_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/aero/aero_commander_680_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/beechcraft/beechcraft_bonanza_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/cessna/cessna_172_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/cirrus/cirrus_sr22_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/diamond/diamond_da40_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/grumman/grumman_tiger_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/mooney/mooney_m20_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/piper/piper_pa28_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/robin/alpha_robin_dr400_screen.dart';
-import 'package:flight_maintenance_app/screens/aircraft_list/tecnam/tecnam_p2006t_screen.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/propeller/propeller.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/fuselage/fuselage.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/wings/wings.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/landingGear/landingGear.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/engine/engine.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/flaps/flaps.dart';
 import 'package:flight_maintenance_app/screens/app/aircraft_maintenace_app.dart';
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash', 
   routes: [
+    GoRoute(
+      path: '/splash',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const SplashScreen(),
+        );
+      },
+    ),
     GoRoute(
       path: '/',
       pageBuilder: (context, state) {
@@ -24,93 +30,60 @@ final GoRouter _router = GoRouter(
         );
       },
     ),
+
     GoRoute(
-      path: '/cessna172',
+      path: '/wings',
       pageBuilder: (context, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: const Cessna172Screen(),
+          child: const Wings(),
         );
       },
     ),
     GoRoute(
-      path: '/piperPa28',
+      path: '/flaps',
       pageBuilder: (context, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: const PiperPA28Screen(),
+          child: const Flaps(),
         );
       },
     ),
     GoRoute(
-      path: '/beechcraftBonanza',
+      path: '/fuselage',
       pageBuilder: (context, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: const BeechcraftBonanzaScreen(),
+          child: const Fuselage(),
+        );
+      },
+    ),   
+    GoRoute(
+      path: '/landingGear',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const LandingGear(),
         );
       },
     ),
     GoRoute(
-      path: '/cirrusSr22',
+      path: '/engine',
       pageBuilder: (context, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: const CirrusSR22Screen(),
+          child: const Engine(),
         );
       },
-    ),
+    ),    
+    
+   
     GoRoute(
-      path: '/diamondDa40',
+      path: '/propeller',
       pageBuilder: (context, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: const DiamondDA40Screen(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/mooneyM20',
-      pageBuilder: (context, state) {
-        return MaterialPage<void>(
-          key: state.pageKey,
-          child: const MooneyM20Screen(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/grummanTiger',
-      pageBuilder: (context, state) {
-        return MaterialPage<void>(
-          key: state.pageKey,
-          child: const GrummanTigerScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/tecnamP2006t',
-      pageBuilder: (context, state) {
-        return MaterialPage<void>(
-          key: state.pageKey,
-          child: const TecnamP2006TScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/alphaRobinDr400',
-      pageBuilder: (context, state) {
-        return MaterialPage<void>(
-          key: state.pageKey,
-          child: const AlphaRobinDR400Screen(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/aeroCommander680',
-      pageBuilder: (context, state) {
-        return MaterialPage<void>(
-          key: state.pageKey,
-          child: const AeroCommander680Screen(),
+          child: const Propeller(),
         );
       },
     ),

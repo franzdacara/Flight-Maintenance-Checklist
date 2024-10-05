@@ -20,14 +20,14 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class Cessna172Screen extends StatefulWidget {
-  const Cessna172Screen({super.key});
+class Wings extends StatefulWidget {
+  const Wings({super.key});
 
   @override
-  State<Cessna172Screen> createState() => _Cessna172ScreenState();
+  State<Wings> createState() => _WingsState();
 }
 
-class _Cessna172ScreenState extends State<Cessna172Screen> {
+class _WingsState extends State<Wings> {
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _Cessna172ScreenState extends State<Cessna172Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Cessna 172'),
+      appBar: buildCommonAppBar(context, 'Wings'),
       body: BlocBuilder<ChecklistBloc, ChecklistState>(
         builder: (context, state) {
           if (state is ChecklistInitial) {

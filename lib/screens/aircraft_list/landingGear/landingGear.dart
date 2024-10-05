@@ -18,15 +18,15 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class DiamondDA40Screen extends StatelessWidget {
-  const DiamondDA40Screen({super.key});
+class LandingGear extends StatelessWidget {
+  const LandingGear({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Diamond DA40'),
+      appBar: buildCommonAppBar(context, 'Landing Gear'),
       body: const Center(
-        child: Text('Diamond DA40 Details'),
+        child: Text('Landing Gear'),
       ),
     );
   }

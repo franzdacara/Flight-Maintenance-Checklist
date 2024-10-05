@@ -18,15 +18,15 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
   );
 }
 
-class BeechcraftBonanzaScreen extends StatelessWidget {
-  const BeechcraftBonanzaScreen({super.key});
+class Propeller extends StatelessWidget {
+  const Propeller({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Beechcraft Bonanza'),
+      appBar: buildCommonAppBar(context, 'Propeller'),
       body: const Center(
-        child: Text('Beechcraft Bonanza Details'),
+        child: Text('Propeller'),
       ),
     );
   }

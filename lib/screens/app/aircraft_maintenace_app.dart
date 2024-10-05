@@ -59,7 +59,7 @@ class _AircraftMaintenanceAppMainScreenState
   AppBar _buildAppBar() {
     return AppBar(
       title: _selectedIndex == 0
-          ? const Text('Select Aircraft to Check Status')
+          ? const Text('Alpha Robin')
           : const Text('Settings'),
       centerTitle: true,
       backgroundColor: Colors.blueGrey[400],
