@@ -31,11 +31,14 @@ class _AircraftMaintenanceAppMainScreenState
       child: Scaffold(
         appBar: _buildAppBar(),
         body: _selectedIndex == 0
-            ? ListView.builder(
-                itemCount: aircraftList.length,
-                itemBuilder: (context, index) {
-                  return AircraftCard(aircraft: aircraftList[index]);
-                },
+            ? Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ListView.builder(
+                  itemCount: aircraftList.length,
+                  itemBuilder: (context, index) {
+                    return AircraftCard(aircraft: aircraftList[index]);
+                  },
+                ),
               )
             : const SettingsScreen(),
         bottomNavigationBar: BottomNavigationBar(
