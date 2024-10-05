@@ -1,20 +1,19 @@
+// lib/bloc/checkList/checklist_bloc.dart
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:flight_maintenance_app/models/checklist_item.dart';
 
 part 'checklist_event.dart';
 part 'checklist_state.dart';
 
 class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
-  List<ChecklistItem> items = [
-    ChecklistItem(title: 'Pre-Flight Inspection', isChecked: false),
-    ChecklistItem(title: 'Engine Start', isChecked: false),
-    ChecklistItem(title: 'Taxi', isChecked: false),
-    ChecklistItem(title: 'Takeoff', isChecked: false),
-    // Add more checklist items as needed
-  ];
+  // Default empty list, can be overridden with specific checklist data
+  List<ChecklistItem> items = [];
 
   ChecklistBloc() : super(ChecklistInitial()) {
     on<LoadChecklist>((event, emit) {
+      items = event.items;
       emit(ChecklistLoaded(items: items));
     });
 
@@ -23,11 +22,4 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
       emit(ChecklistLoaded(items: List.from(items))); // Emit updated state
     });
   }
-}
-
-class ChecklistItem {
-  final String title;
-  bool isChecked;
-
-  ChecklistItem({required this.title, this.isChecked = false});
 }

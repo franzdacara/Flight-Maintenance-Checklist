@@ -1,7 +1,8 @@
+import 'package:flight_maintenance_app/models/checklist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 
 AppBar buildCommonAppBar(BuildContext context, String title) {
   return AppBar(
@@ -14,30 +15,31 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
     leading: IconButton(
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
-        GoRouter.of(context).go('/');
+        GoRouter.of(context).go('/propeller');
       },
     ),
   );
 }
 
-class Wings extends StatefulWidget {
-  const Wings({super.key});
+class Installation extends StatefulWidget {
+  const Installation({super.key});
 
   @override
-  State<Wings> createState() => _WingsState();
+  State<Installation> createState() => _InstallationState();
 }
 
-class _WingsState extends State<Wings> {
+class _InstallationState extends State<Installation> {
   @override
   void initState() {
     super.initState();
-    // BlocProvider.of<ChecklistBloc>(context).add(LoadChecklist());
+    BlocProvider.of<ChecklistBloc>(context)
+        .add(LoadChecklist(installationChecklistItems));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Wings'),
+      appBar: buildCommonAppBar(context, 'Installation'),
       body: BlocBuilder<ChecklistBloc, ChecklistState>(
         builder: (context, state) {
           if (state is ChecklistInitial) {

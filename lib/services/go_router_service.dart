@@ -1,3 +1,7 @@
+import 'package:flight_maintenance_app/screens/aircraft_list/propeller/clean_inspection.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/propeller/installation.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/propeller/removal.dart';
+import 'package:flight_maintenance_app/screens/aircraft_list/propeller/repair_work.dart';
 import 'package:flight_maintenance_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -87,6 +91,46 @@ final GoRouter _router = GoRouter(
         );
       },
     ),
+    
+    
+    GoRoute(
+      path: '/removal',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const RemovalScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/cleanInspect',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const CleanInspection(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/repairWork',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const RepairWork(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/installation',
+      pageBuilder: (context, state) {
+        return MaterialPage<void>(
+          key: state.pageKey,
+          child: const Installation(),
+        );
+      },
+    ),
+    
+
   ],
 );
 
