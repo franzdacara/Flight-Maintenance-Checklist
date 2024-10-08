@@ -49,12 +49,26 @@ class _InstallationState extends State<Installation> {
           if (state is ChecklistInitial) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is ChecklistLoaded) {
-            return ListView.builder(
-              itemCount: state.items.length,
-              itemBuilder: (context, index) {
-                final item = state.items[index];
-                return ChecklistCard(item: item, index: index);
-              },
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Checklist Status: ${state.status}', // Display the checklist status
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.items.length,
+                    itemBuilder: (context, index) {
+                      final item = state.items[index];
+                      return ChecklistCard(item: item, index: index);
+                    },
+                  ),
+                ),
+              ],
             );
           }
           return const Center(child: Text('No checklist items available'));

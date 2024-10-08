@@ -1,9 +1,27 @@
 class ChecklistItem {
   final String title;
   bool isChecked;
+  final String? repairType;
 
-  ChecklistItem({required this.title, this.isChecked = false});
+  ChecklistItem({
+    required this.title,
+    this.isChecked = false,
+    this.repairType,
+  });
+
+  ChecklistItem copyWith({
+    String? title,
+    bool? isChecked,
+    String? repairType,
+  }) {
+    return ChecklistItem(
+      title: title ?? this.title,
+      isChecked: isChecked ?? this.isChecked,
+      repairType: repairType ?? this.repairType,
+    );
+  }
 }
+
 
 List<ChecklistItem> removalChecklistItems = [
   ChecklistItem(title: 'Master switch and ignition switch in OFF position.'),
