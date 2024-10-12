@@ -11,15 +11,16 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
   ChecklistBloc() : super(ChecklistInitial()) {
     on<LoadChecklist>((event, emit) {
       items = event.items;
-      String status = getChecklistStatus(); // Get the status based on items
-      emit(ChecklistLoaded(items: items, status: status)); // Pass status here
+      String status = getChecklistStatus();
+      emit(ChecklistLoaded(items: items, status: status));
     });
 
     on<ToggleChecklistItem>((event, emit) {
       items[event.index].isChecked = !items[event.index].isChecked;
-      String status = getChecklistStatus(); // Update status after toggle
+      String status = getChecklistStatus();
       emit(ChecklistLoaded(
-          items: List.from(items), status: status)); // Pass updated status
+          items: List.from(items), status: status),
+      );
     });
   }
 

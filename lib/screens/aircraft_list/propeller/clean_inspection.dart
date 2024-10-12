@@ -1,4 +1,5 @@
 import 'package:flight_maintenance_app/models/checklist_item.dart';
+import 'package:flight_maintenance_app/utils/aircraftlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -49,26 +50,40 @@ class _CleanInspectionState extends State<CleanInspection> {
           if (state is ChecklistInitial) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is ChecklistLoaded) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Checklist Status: ${state.status}', // Display the checklist status
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+            // Check if the status is "Complete" or "Incomplete" and update `aircrafSteps[1].isComplete` accordingly
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              setState(() {
+                if (state.status == 'Complete') {
+                  aircrafSteps[1].isComplete = true;
+                } else if (state.status == 'Incomplete') {
+                  aircrafSteps[1].isComplete = false;
+                }
+              });
+            });
+
+            return Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Column(
+                children: [
+                  // Padding(
+                  //   padding: const EdgeInsets.all(16.0),
+                  //   child: Text(
+                  //     'Checklist Status: ${state.status}', // Display the checklist status
+                  //     style: const TextStyle(
+                  //         fontSize: 18, fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.items.length,
+                      itemBuilder: (context, index) {
+                        final item = state.items[index];
+                        return ChecklistCard(item: item, index: index);
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.items.length,
-                    itemBuilder: (context, index) {
-                      final item = state.items[index];
-                      return ChecklistCard(item: item, index: index);
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             );
           }
           return const Center(child: Text('No checklist items available'));
@@ -77,6 +92,7 @@ class _CleanInspectionState extends State<CleanInspection> {
     );
   }
 }
+
 
 class ChecklistCard extends StatelessWidget {
   final ChecklistItem item;

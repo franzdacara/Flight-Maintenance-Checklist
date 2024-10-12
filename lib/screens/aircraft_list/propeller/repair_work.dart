@@ -1,4 +1,5 @@
 import 'package:flight_maintenance_app/models/checklist_item.dart';
+import 'package:flight_maintenance_app/utils/aircraftlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,13 +34,13 @@ class RepairWork extends StatefulWidget {
 }
 
 class _RepairWorkState extends State<RepairWork> {
-  String _repairType = 'Minor'; 
+  String _repairType = 'Minor';
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ChecklistBloc>(context)
-        .add(LoadChecklist(minorRepairChecklistItems)); 
+        .add(LoadChecklist(minorRepairChecklistItems));
   }
 
   void _loadChecklist(String repairType) {
@@ -71,7 +72,7 @@ class _RepairWorkState extends State<RepairWork> {
                   onChanged: (value) {
                     setState(() {
                       _repairType = value!;
-                      _loadChecklist(value); 
+                      _loadChecklist(value);
                     });
                   },
                 ),
@@ -94,14 +95,25 @@ class _RepairWorkState extends State<RepairWork> {
           BlocBuilder<ChecklistBloc, ChecklistState>(
             builder: (context, state) {
               if (state is ChecklistLoaded) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Checklist Status: ${state.status}',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                );
+                // Check if the status is "Complete" or "Incomplete" and update `aircrafSteps[2].isComplete` accordingly
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    if (state.status == 'Complete') {
+                      aircrafSteps[2].isComplete = true;
+                    } else if (state.status == 'Incomplete') {
+                      aircrafSteps[2].isComplete = false;
+                    }
+                  });
+                });
+
+                // return Padding(
+                //   padding: const EdgeInsets.all(16.0),
+                //   child: Text(
+                //     'Checklist Status: ${state.status}',
+                //     style: const TextStyle(
+                //         fontSize: 18, fontWeight: FontWeight.bold),
+                //   ),
+                // );
               }
               return Container();
             },

@@ -15,14 +15,14 @@ class AircraftMaintenanceAppMainScreen extends StatefulWidget {
 
 class _AircraftMaintenanceAppMainScreenState
     extends State<AircraftMaintenanceAppMainScreen> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
   final ChecklistBloc _checklistBloc = ChecklistBloc();
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +41,20 @@ class _AircraftMaintenanceAppMainScreenState
                 ),
               )
             : const SettingsScreen(),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.airplane_ticket),
-              label: 'Aircraft',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   items: const <BottomNavigationBarItem>[
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.airplane_ticket),
+        //       label: 'Aircraft',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.settings),
+        //       label: 'Settings',
+        //     ),
+        //   ],
+        //   currentIndex: _selectedIndex,
+        //   onTap: _onItemTapped,
+        // ),
       ),
     );
   }

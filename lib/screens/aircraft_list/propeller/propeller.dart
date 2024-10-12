@@ -76,7 +76,7 @@ class AircraftCard extends StatelessWidget {
             ),
             leading: Icon(
               aircraftStep.isAvailable ? Icons.check_circle : Icons.cancel,
-              color: aircraftStep.isAvailable ? Colors.green : Colors.red,
+              color: aircraftStep.isComplete ? Colors.green : Colors.red, 
               size: 30,
             ),
             trailing: const Icon(Icons.arrow_forward_ios_rounded),
@@ -84,10 +84,10 @@ class AircraftCard extends StatelessWidget {
             textColor: Colors.black,
             iconColor: Colors.black,
             subtitle: Text(
-              'Status: ${aircraftStep.isAvailable ? 'Available' : 'Not Available'}', // Subtitle showing availability
+              aircraftStep.isComplete ? 'Complete' : 'Incomplete',
               style: const TextStyle(
                 fontSize: 13,
-                fontWeight: FontWeight.w500, 
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -96,3 +96,4 @@ class AircraftCard extends StatelessWidget {
     );
   }
 }
+
