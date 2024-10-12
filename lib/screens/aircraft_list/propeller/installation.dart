@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 
-AppBar buildCommonAppBar(BuildContext context, String title) {
+AppBar buildCommonAppBar(
+    BuildContext context, String title, bool isNextEnabled) {
   return AppBar(
     title: Text(
       title,
@@ -23,6 +24,26 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
         GoRouter.of(context).go('/propeller');
       },
     ),
+    actions: [
+      TextButton(
+        onPressed: isNextEnabled
+            ? () {
+                GoRouter.of(context).go(
+                    '/nextScreen'); //e change lang ni na route for submit page
+              }
+            : null,
+        style: TextButton.styleFrom(
+          foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
+        ),
+        child: const Text(
+          'Submit',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -34,6 +55,8 @@ class Installation extends StatefulWidget {
 }
 
 class _InstallationState extends State<Installation> {
+  bool isNextEnabled = false;
+
   @override
   void initState() {
     super.initState();
@@ -44,42 +67,48 @@ class _InstallationState extends State<Installation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Installation'),
-      body: BlocBuilder<ChecklistBloc, ChecklistState>(
-        builder: (context, state) {
-          if (state is ChecklistInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ChecklistLoaded) {
-            // Check if the status is "Complete" or "Incomplete" and update `aircrafSteps[3].isComplete` accordingly
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              setState(() {
-                if (state.status == 'Complete') {
-                  aircrafSteps[3].isComplete = true;
-                } else if (state.status == 'Incomplete') {
-                  aircrafSteps[3].isComplete = false;
-                }
-              });
+      // Use the updated AppBar with the Next button enabled/disabled logic
+      appBar: buildCommonAppBar(context, 'Installation', isNextEnabled),
+      body: BlocListener<ChecklistBloc, ChecklistState>(
+        listener: (context, state) {
+          if (state is ChecklistLoaded) {
+            setState(() {
+              // Update the `isNextEnabled` flag based on the checklist status
+              if (state.status == 'Complete') {
+                aircrafSteps[3].isComplete = true;
+                isNextEnabled = true; // Enable Next button
+              } else if (state.status == 'Incomplete') {
+                aircrafSteps[3].isComplete = false;
+                isNextEnabled = false; // Disable Next button
+              }
             });
-
-            return Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: state.items.length,
-                      itemBuilder: (context, index) {
-                        final item = state.items[index];
-                        return ChecklistCard(item: item, index: index);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
           }
-          return const Center(child: Text('No checklist items available'));
         },
+        child: BlocBuilder<ChecklistBloc, ChecklistState>(
+          builder: (context, state) {
+            if (state is ChecklistInitial) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ChecklistLoaded) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: state.items.length,
+                        itemBuilder: (context, index) {
+                          final item = state.items[index];
+                          return ChecklistCard(item: item, index: index);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const Center(child: Text('No checklist items available'));
+          },
+        ),
       ),
     );
   }

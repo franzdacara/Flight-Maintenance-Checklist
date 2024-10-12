@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 
-AppBar buildCommonAppBar(BuildContext context, String title) {
+AppBar buildCommonAppBar(
+    BuildContext context, String title, bool isNextEnabled) {
   return AppBar(
     title: Text(
       title,
@@ -23,6 +24,25 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
         GoRouter.of(context).go('/propeller');
       },
     ),
+    actions: [
+      TextButton(
+        onPressed: isNextEnabled
+            ? () {
+                GoRouter.of(context).go('/installation');
+              }
+            : null,
+        style: TextButton.styleFrom(
+          foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
+        ),
+        child: const Text(
+          'Next',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -35,6 +55,7 @@ class RepairWork extends StatefulWidget {
 
 class _RepairWorkState extends State<RepairWork> {
   String _repairType = 'Minor';
+  bool isNextEnabled = false;
 
   @override
   void initState() {
@@ -56,7 +77,7 @@ class _RepairWorkState extends State<RepairWork> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Repair Work'),
+      appBar: buildCommonAppBar(context, 'Repair Work', isNextEnabled),
       body: Column(
         children: [
           // Repair Type Radio Selection
@@ -92,31 +113,21 @@ class _RepairWorkState extends State<RepairWork> {
             ),
           ),
           // Display Checklist Status
-          BlocBuilder<ChecklistBloc, ChecklistState>(
-            builder: (context, state) {
+          BlocListener<ChecklistBloc, ChecklistState>(
+            listener: (context, state) {
               if (state is ChecklistLoaded) {
-                // Check if the status is "Complete" or "Incomplete" and update `aircrafSteps[2].isComplete` accordingly
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    if (state.status == 'Complete') {
-                      aircrafSteps[2].isComplete = true;
-                    } else if (state.status == 'Incomplete') {
-                      aircrafSteps[2].isComplete = false;
-                    }
-                  });
+                setState(() {
+                  if (state.status == 'Complete') {
+                    aircrafSteps[2].isComplete = true;
+                    isNextEnabled = true; // Enable Next button
+                  } else if (state.status == 'Incomplete') {
+                    aircrafSteps[2].isComplete = false;
+                    isNextEnabled = false; // Disable Next button
+                  }
                 });
-
-                // return Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: Text(
-                //     'Checklist Status: ${state.status}',
-                //     style: const TextStyle(
-                //         fontSize: 18, fontWeight: FontWeight.bold),
-                //   ),
-                // );
               }
-              return Container();
             },
+            child: Container(),
           ),
           Expanded(
             child: BlocBuilder<ChecklistBloc, ChecklistState>(

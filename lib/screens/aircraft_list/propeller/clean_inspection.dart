@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flight_maintenance_app/bloc/checkList/checklist_bloc.dart';
 
-AppBar buildCommonAppBar(BuildContext context, String title) {
+AppBar buildCommonAppBar(
+    BuildContext context, String title, bool isNextEnabled) {
   return AppBar(
     title: Text(
       title,
@@ -23,6 +24,25 @@ AppBar buildCommonAppBar(BuildContext context, String title) {
         GoRouter.of(context).go('/propeller');
       },
     ),
+    actions: [
+      TextButton(
+        onPressed: isNextEnabled
+            ? () {
+                GoRouter.of(context).go('/repairWork');
+              }
+            : null,
+        style: TextButton.styleFrom(
+          foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
+        ),
+        child: const Text(
+          'Next',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -34,6 +54,7 @@ class CleanInspection extends StatefulWidget {
 }
 
 class _CleanInspectionState extends State<CleanInspection> {
+  bool isNextEnabled = false;
   @override
   void initState() {
     super.initState();
@@ -44,50 +65,47 @@ class _CleanInspectionState extends State<CleanInspection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildCommonAppBar(context, 'Cleaning & Inspection'),
-      body: BlocBuilder<ChecklistBloc, ChecklistState>(
-        builder: (context, state) {
-          if (state is ChecklistInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ChecklistLoaded) {
-            // Check if the status is "Complete" or "Incomplete" and update `aircrafSteps[1].isComplete` accordingly
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              setState(() {
-                if (state.status == 'Complete') {
-                  aircrafSteps[1].isComplete = true;
-                } else if (state.status == 'Incomplete') {
-                  aircrafSteps[1].isComplete = false;
-                }
-              });
+      appBar:
+          buildCommonAppBar(context, 'Cleaning & Inspection', isNextEnabled),
+      body: BlocListener<ChecklistBloc, ChecklistState>(
+        listener: (context, state) {
+          if (state is ChecklistLoaded) {
+            setState(() {
+              if (state.status == 'Complete') {
+                aircrafSteps[1].isComplete = true;
+                isNextEnabled = true; // Enable Next button
+              } else if (state.status == 'Incomplete') {
+                aircrafSteps[1].isComplete = false;
+                isNextEnabled = false; // Disable Next button
+              }
             });
-
-            return Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.all(16.0),
-                  //   child: Text(
-                  //     'Checklist Status: ${state.status}', // Display the checklist status
-                  //     style: const TextStyle(
-                  //         fontSize: 18, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: state.items.length,
-                      itemBuilder: (context, index) {
-                        final item = state.items[index];
-                        return ChecklistCard(item: item, index: index);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
           }
-          return const Center(child: Text('No checklist items available'));
         },
+        child: BlocBuilder<ChecklistBloc, ChecklistState>(
+          builder: (context, state) {
+            if (state is ChecklistInitial) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ChecklistLoaded) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: state.items.length,
+                        itemBuilder: (context, index) {
+                          final item = state.items[index];
+                          return ChecklistCard(item: item, index: index);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const Center(child: Text('No checklist items available'));
+          },
+        ),
       ),
     );
   }
