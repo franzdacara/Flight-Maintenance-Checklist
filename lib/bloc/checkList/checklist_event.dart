@@ -14,3 +14,5 @@ class ToggleChecklistItem extends ChecklistEvent {
 
   ToggleChecklistItem(this.index);
 }
+
+class ResetChecklist extends ChecklistEvent {}

@@ -4,7 +4,6 @@ import 'package:flight_maintenance_app/models/checklist_item.dart';
 
 part 'checklist_event.dart';
 part 'checklist_state.dart';
-
 class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
   List<ChecklistItem> items = [];
 
@@ -18,9 +17,15 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
     on<ToggleChecklistItem>((event, emit) {
       items[event.index].isChecked = !items[event.index].isChecked;
       String status = getChecklistStatus();
-      emit(ChecklistLoaded(
-          items: List.from(items), status: status),
-      );
+      emit(ChecklistLoaded(items: List.from(items), status: status));
+    });
+
+    on<ResetChecklist>((event, emit) {
+      for (var item in items) {
+        item.isChecked = false;
+      }
+      String status = getChecklistStatus();
+      emit(ChecklistLoaded(items: List.from(items), status: status));
     });
   }
 
@@ -29,4 +34,3 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
     return allChecked ? 'Complete' : 'Incomplete';
   }
 }
-

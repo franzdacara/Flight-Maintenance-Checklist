@@ -29,14 +29,14 @@ AppBar buildCommonAppBar(
         onPressed: isNextEnabled
             ? () {
                 GoRouter.of(context).go(
-                    '/nextScreen'); //e change lang ni na route for submit page
+                    '/propeller');
               }
             : null,
         style: TextButton.styleFrom(
           foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
         ),
         child: const Text(
-          'Submit',
+          'Done',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
