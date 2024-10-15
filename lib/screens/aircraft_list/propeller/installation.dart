@@ -24,25 +24,25 @@ AppBar buildCommonAppBar(
         GoRouter.of(context).go('/propeller');
       },
     ),
-    actions: [
-      TextButton(
-        onPressed: isNextEnabled
-            ? () {
-                GoRouter.of(context).go(
-                    '/propeller');
-              }
-            : null,
-        style: TextButton.styleFrom(
-          foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
-        ),
-        child: const Text(
-          'Done',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+    actions: const [
+      // TextButton(
+      //   onPressed: isNextEnabled
+      //       ? () {
+      //           GoRouter.of(context).go(
+      //               '/propeller');
+      //         }
+      //       : null,
+      //   style: TextButton.styleFrom(
+      //     foregroundColor: isNextEnabled ? Colors.white : Colors.grey,
+      //   ),
+      //   child: const Text(
+      //     'Done',
+      //     style: TextStyle(
+      //       fontSize: 15,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
     ],
   );
 }
