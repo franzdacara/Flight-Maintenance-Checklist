@@ -6,6 +6,13 @@ part 'checklist_event.dart';
 part 'checklist_state.dart';
 class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
   List<ChecklistItem> items = [];
+  List<ChecklistItem> allChecklistItems = [
+    ...removalChecklistItems,
+    ...cleaningInspectionChecklistItems,
+    ...installationChecklistItems,
+    ...minorRepairChecklistItems,
+    ...majorRepairChecklistItems,
+  ];
 
   ChecklistBloc() : super(ChecklistInitial()) {
     on<LoadChecklist>((event, emit) {
@@ -21,8 +28,8 @@ class ChecklistBloc extends Bloc<ChecklistEvent, ChecklistState> {
     });
 
     on<ResetChecklist>((event, emit) {
-      for (var item in items) {
-        item.isChecked = false;
+      for (var item in allChecklistItems) {
+        item.isChecked = false; 
       }
       String status = getChecklistStatus();
       emit(ChecklistLoaded(items: List.from(items), status: status));
