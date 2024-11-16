@@ -116,7 +116,10 @@ class _PropellerState extends State<Propeller> {
 class AircraftCard extends StatelessWidget {
   final AircraftSteps aircraftStep;
 
-  const AircraftCard({super.key, required this.aircraftStep});
+  const AircraftCard({
+    super.key,
+    required this.aircraftStep,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -133,33 +136,50 @@ class AircraftCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 3,
-          child: ListTile(
-            title: Text(
-              aircraftStep.name,
-              style: const TextStyle(
-                fontSize: 14,
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                child: Image.asset(
+                  aircraftStep.imagePath,
+                  height: 150,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            leading: Icon(
-              aircraftStep.isAvailable ? Icons.check_circle : Icons.cancel,
-              color: aircraftStep.isComplete ? Colors.green : Colors.red,
-              size: 30,
-            ),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
-            tileColor: Colors.blueGrey[100],
-            textColor: Colors.black,
-            iconColor: Colors.black,
-            subtitle: Text(
-              aircraftStep.isComplete ? 'Complete' : 'Incomplete',
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
+              ListTile(
+                title: Text(
+                  aircraftStep.name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                leading: Icon(
+                  aircraftStep.isAvailable ? Icons.check_circle : Icons.cancel,
+                  color: aircraftStep.isComplete ? Colors.green : Colors.red,
+                  size: 30,
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                tileColor: Colors.blueGrey[100],
+                textColor: Colors.black,
+                iconColor: Colors.black,
+                subtitle: Text(
+                  aircraftStep.isComplete ? 'Complete' : 'Incomplete',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
     );
   }
 }
+
 

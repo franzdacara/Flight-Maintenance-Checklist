@@ -41,26 +41,30 @@ List<Aircraft> aircraftList = [
     icon: Icons.airplane_ticket_sharp,
   ),
 ];
-
 List<AircraftSteps> aircrafSteps = [
   AircraftSteps(
     name: 'Removal',
     isAvailable: true,
     route: '/removal',
+    imagePath: 'assets/images/Removal.jpg',
   ),
   AircraftSteps(
     name: 'Cleaning / Inspection',
     isAvailable: true,
     route: '/cleanInspect',
+    imagePath: 'assets/images/Cleaning.jpg',
   ),
   AircraftSteps(
     name: 'Repair Work',
     isAvailable: true,
     route: '/repairWork',
+    imagePath: 'assets/images/RepairWork.jpg',
   ),
   AircraftSteps(
     name: 'Installation',
     isAvailable: true,
     route: '/installation',
+    imagePath: 'assets/images/Installation.jpg',
   ),
 ];
+
